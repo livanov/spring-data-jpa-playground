@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/people")
+@RequestMapping("api/subjects")
 @RequiredArgsConstructor
 public class SubjectsController {
 

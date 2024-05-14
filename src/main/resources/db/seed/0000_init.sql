@@ -1,3 +1,11 @@
-INSERT INTO people (id, name) VALUES
-('cd99e4d7-9383-4bf4-9ed8-ece10e50a88d', 'Lyubo'),
-('ca657144-1dc3-4c94-87e6-b50d3c54b0cd', 'Gosho');
+-- INSERT INTO people (id, name) VALUES
+-- ('cd99e4d7-9383-4bf4-9ed8-ece10e50a88d', 'Lyubo'),
+-- ('ca657144-1dc3-4c94-87e6-b50d3c54b0cd', 'Gosho');
+--
+-- INSERT INTO subjects (id, name) VALUES
+-- ('cd99e4d7-9383-4bf3-9ed8-ece10e50a88d', 'Math'),
+-- ('ca657144-1dc3-4c93-87e6-b50d3c54b0cd', 'Physics');
+--
+-- INSERT INTO people_subjects (person_id, subject_id) VALUES
+-- ('cd99e4d7-9383-4bf4-9ed8-ece10e50a88d', 'cd99e4d7-9383-4bf3-9ed8-ece10e50a88d'),
+-- ('cd99e4d7-9383-4bf4-9ed8-ece10e50a88d', 'ca657144-1dc3-4c93-87e6-b50d3c54b0cd');
