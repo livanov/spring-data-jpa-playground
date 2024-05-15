@@ -1,12 +1,12 @@
 package com.livanov.playground.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -17,10 +17,31 @@ public class Subject {
 
     @Id
     private String id;
-    private String name;
 
-    public Subject(String name) {
+    @Column(name = "code")
+    private String code;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "subject_names",
+            joinColumns = @JoinColumn(name = "subject_id")
+    )
+    private List<Name> names;
+
+    Subject(String code, Name... names) {
         this.id = UUID.randomUUID().toString();
-        this.name = name;
+        this.code = code;
+        this.names = Arrays.stream(names).toList();
+    }
+
+    @Getter
+    @Embeddable
+    @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+    static class Name {
+
+        @Column(name = "language_iso_alpha2")
+        String language;
+
+        String value;
     }
 }

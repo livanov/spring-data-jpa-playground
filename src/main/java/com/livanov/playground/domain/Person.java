@@ -20,7 +20,9 @@ public class Person {
 
     @Id
     private String id;
+
     private String name;
+
     @ManyToMany
     private List<Subject> subjects = new ArrayList<>();
 

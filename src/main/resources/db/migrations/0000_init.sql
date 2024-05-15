@@ -7,7 +7,14 @@ create table people
 create table subjects
 (
     id text primary key,
-    name text not null
+    code text not null
+);
+
+create table subject_names
+(
+    subject_id text not null references subjects(id),
+    language_iso_alpha2 text not null,
+    value text not null
 );
 
 create table people_subjects

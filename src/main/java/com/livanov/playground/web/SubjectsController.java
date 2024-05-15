@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Collections.emptyList;
+
 @RestController
 @RequestMapping("api/subjects")
 @RequiredArgsConstructor
@@ -17,9 +19,10 @@ public class SubjectsController {
 
     @GetMapping
     public List<Subject> all(@RequestParam(required = false) String name) {
-        return Optional.ofNullable(name)
-                .map(repository::findByName)
-                .orElseGet(repository::findAll);
+        return emptyList();
+//        return Optional.ofNullable(name)
+//                .map(repository::findByName)
+//                .orElseGet(repository::findAll);
     }
 
     @GetMapping("{id}")
