@@ -6,8 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+
+import static java.util.stream.Collectors.toSet;
 
 @Getter
 @Entity
@@ -26,22 +28,27 @@ public class Subject {
             name = "subject_names",
             joinColumns = @JoinColumn(name = "subject_id")
     )
-    private List<Name> names;
+    private Set<Name> names;
 
-    Subject(String code, Name... names) {
+    public Subject(String code, Name... names) {
         this.id = UUID.randomUUID().toString();
         this.code = code;
-        this.names = Arrays.stream(names).toList();
+        this.names = Arrays.stream(names).collect(toSet());
     }
 
     @Getter
     @Embeddable
     @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
-    static class Name {
+    public static class Name {
 
         @Column(name = "language_iso_alpha2")
-        String language;
+        private String language;
 
-        String value;
+        private String value;
+
+        public Name(String language, String value) {
+            this.language = language;
+            this.value = value;
+        }
     }
 }

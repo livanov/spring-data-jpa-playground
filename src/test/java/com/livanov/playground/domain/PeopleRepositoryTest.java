@@ -1,44 +1,27 @@
 package com.livanov.playground.domain;
 
 import com.livanov.playground.BaseDatabaseIntegrationTest;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
+import lombok.val;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PeopleRepositoryTest extends BaseDatabaseIntegrationTest {
 
     @Autowired
     private PeopleRepository repository;
 
     @Test
-    @Order(1)
-    void name1() throws ExecutionException, InterruptedException {
+    void name1() {
 
         // GIVEN
-        repository.save(new Person("Aaa"));
+        val persistedPerson = repository.save(new Person("Lyubo"));
 
         // WHEN
-        final Future<List<Person>> future = Executors.newCachedThreadPool().submit(() -> repository.findAll());
+        val fetchedPerson = repository.findByNameContainingIgnoreCase("UB");
 
         // THEN
-        assertThat(future.get()).satisfiesExactly(x ->
-                assertThat(x.getName()).isEqualTo("Aaa")
-        );
-    }
-
-    @Test
-    @Order(2)
-    void name2() {
-        assertThat(repository.findAll()).isEmpty();
+        assertThat(fetchedPerson).satisfiesExactlyInAnyOrder(p -> assertThat(p.getId()).isEqualTo(persistedPerson.getId()));
     }
 }

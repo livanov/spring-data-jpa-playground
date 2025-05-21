@@ -1,6 +1,11 @@
 package com.livanov.playground;
 
+import com.livanov.playground.domain.PeopleRepository;
+import com.livanov.playground.domain.Person;
+import com.livanov.playground.domain.Subject;
+import com.livanov.playground.domain.SubjectsRepository;
 import lombok.val;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.devtools.restart.RestartScope;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -8,12 +13,47 @@ import org.springframework.context.annotation.Bean;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
 public class PlaygroundApplicationLocal {
 
     public static void main(String[] args) {
+
         SpringApplication.from(PlaygroundApplication::main)
                 .with(DatabaseConfiguration.class)
+                .with(DataInjector.class)
                 .run(args);
+    }
+
+    public static class DataInjector {
+        @Bean
+        ApplicationRunner runner(PeopleRepository people, SubjectsRepository subjects) {
+
+            return args -> {
+
+                val subject1 = subjects.save(new Subject("M1",
+                        new Subject.Name("en", "Mathematics"),
+                        new Subject.Name("bg", "Математика")
+                ));
+
+                val subject2 = subjects.save(new Subject("P1",
+                        new Subject.Name("en", "Physics"),
+                        new Subject.Name("bg", "Физика")
+                ));
+
+                val person1 = new Person("Lyubo");
+                person1.addTags("student", "musician");
+                person1.addSubjects(subject1, subject2);
+
+                val person2 = new Person("George");
+                person2.addTags("student", "painter");
+                person2.addSubjects(subject1);
+
+                people.saveAll(List.of(person1, person2));
+            };
+        }
     }
 
     public static class DatabaseConfiguration {

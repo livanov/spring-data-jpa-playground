@@ -20,7 +20,7 @@ class PeopleController {
     @GetMapping
     public List<Person> all(@RequestParam(required = false) String name) {
         return Optional.ofNullable(name)
-                .map(repository::findByName)
+                .map(repository::findByNameContainingIgnoreCase)
                 .orElseGet(repository::findAll);
     }
 
