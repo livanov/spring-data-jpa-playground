@@ -1,7 +1,8 @@
 create table people
 (
     id text primary key,
-    name text not null
+    name text not null,
+    tags jsonb null
 );
 
 create table subjects

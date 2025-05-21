@@ -26,7 +26,8 @@ public class PlaygroundApplicationLocal {
 
             return new PostgreSQLContainer<>(imageName)
                     .withUsername("postgres")
-                    .withPassword("postgres");
+                    .withPassword("postgres")
+                    .withDatabaseName("initial");
         }
     }
 }

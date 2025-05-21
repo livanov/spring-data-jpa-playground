@@ -19,10 +19,9 @@ public class SubjectsController {
 
     @GetMapping
     public List<Subject> all(@RequestParam(required = false) String name) {
-        return emptyList();
-//        return Optional.ofNullable(name)
-//                .map(repository::findByName)
-//                .orElseGet(repository::findAll);
+        return repository.findAll().stream()
+                .filter(s -> s.getNames().stream().anyMatch(n -> n.getValue().toLowerCase().contains(name.toLowerCase())))
+                .toList();
     }
 
     @GetMapping("{id}")

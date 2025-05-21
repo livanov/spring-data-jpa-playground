@@ -2,8 +2,10 @@ package com.livanov.playground.web;
 
 import com.livanov.playground.domain.PeopleRepository;
 import com.livanov.playground.domain.Person;
+import com.livanov.playground.domain.Subject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,5 +30,20 @@ class PeopleController {
     public Person one(@PathVariable Integer id) {
         return repository.findById(id)
                 .orElseThrow();
+    }
+
+    @Transactional
+    @GetMapping("test")
+    public void asd() {
+        Person person = repository.findAll().stream()
+                .findAny().get();
+
+        person.setName("aaaaaaaaaaaaaaa");
+
+        Subject subject = person.getSubjects().stream().findFirst().get();
+
+        subject.setCode("zzzzzzzzzzzzzzzz");
+
+        repository.save(person);
     }
 }
